@@ -12,6 +12,13 @@ public partial class PlayerProfile : Node
     public bool adultModeEnabled = false; // legacy/admin flag
     public bool adultModeDisabledByChurch = false;
 
+    // Cloud save / parental consent
+    public bool cloudSaveEnabled = false; // requires parental consent for child accounts
+    public string cloudSaveConsentId = null; // backend consent reference
+
+    // Telemetry / COPPA
+    public bool telemetryEnabled = false;
+
     public List<string> ownedFruits = new List<string>();
     public List<string> equippedFruits = new List<string>();
     public bool isRainbowEquipped = false;
@@ -41,6 +48,21 @@ public partial class PlayerProfile : Node
         if (adultModeDisabledByChurch) return false;
         if (IsAdultByAge(18)) return true;
         return adultModeEnabled;
+    }
+
+    // Cloud save allowed if player is adult OR parental consent exists and cloudSaveEnabled is true
+    public bool CanUseCloudSave()
+    {
+        if (IsAdultByAge(18)) return cloudSaveEnabled;
+        // child accounts require explicit parental consent id
+        return cloudSaveEnabled && !string.IsNullOrEmpty(cloudSaveConsentId);
+    }
+
+    // COPPA guard: telemetry should be disabled for children under 13
+    public bool IsTelemetryAllowed()
+    {
+        if (!telemetryEnabled) return false;
+        return GetAge() >= 13;
     }
 
     // Simple collection helpers
