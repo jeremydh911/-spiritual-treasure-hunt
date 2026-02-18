@@ -18,6 +18,11 @@ Endpoints
 - POST /verify/age { playerId, dob } -> { ageVerified, age }  # demo age-check (18+)
 - POST /verify/age/provider { playerId, providerName, token } -> { ageVerified, age, providerId }  # provider token verification (demo stub)
 - POST /verify/age/webhook { playerId, providerName, providerId, verified, age } -> { ok }  # provider callback (demo)
+
+Configuration (self‑hosted provider)
+- To enable the built‑in self‑hosted provider (freeware option), set `SELF_PROVIDER_SECRET` in the environment. Example: `export SELF_PROVIDER_SECRET=supersecret`
+- Token format (self provider): `playerId:timestamp:signature` where `signature = HMAC_SHA256(SELF_PROVIDER_SECRET, "playerId:timestamp")`.
+- Webhook signature (self provider): include header `x-self-signature: sha256=<hex>` where the hex is HMAC_SHA256(SELF_PROVIDER_SECRET, <body‑json>).
 - POST /audit/log { action, details } -> audit recorded
 - GET  /audit -> raw audit log (admin/demo only)
 

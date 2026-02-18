@@ -17,6 +17,8 @@ async function waitForServer(url, timeoutMs = 5000) {
 
 (async () => {
   const path = require('path');
+  // ensure self-provider secret is set for tests
+  process.env.SELF_PROVIDER_SECRET = process.env.SELF_PROVIDER_SECRET || 'test-self-secret';
   console.log('Starting backend server for tests...');
   const srv = spawn('node', ['server.js'], { cwd: path.join(__dirname, '..'), env: process.env, stdio: ['ignore','pipe','pipe'] });
 
@@ -43,10 +45,35 @@ async function waitForServer(url, timeoutMs = 5000) {
     j = await r.json();
     if (!j.ageVerified) throw new Error('Provider token should verify in demo');
 
-    // 3) Webhook callback handling
+    // 3) Webhook callback handling (demo provider)
     r = await fetch('http://localhost:4000/verify/age/webhook', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ playerId: 'test4', providerName: 'demo', providerId: 'prov-1', verified: true, age: 21 }) });
     j = await r.json();
     if (!j.ok) throw new Error('Webhook should return ok');
+
+    // 4) Self-hosted provider: token verification (HMAC)
+    const crypto = require('crypto');
+    const secret = process.env.SELF_PROVIDER_SECRET || 'test-self-secret';
+    const player = 'selfPlayer';
+    const ts = Date.now();
+    const payload = `${player}:${ts}`;
+    const sig = crypto.createHmac('sha256', secret).update(payload).digest('hex');
+    const token = `${player}:${ts}:${sig}`;
+
+    r = await fetch('http://localhost:4000/verify/age/provider', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ playerId: player, providerName: 'self', token }) });
+    j = await r.json();
+    if (!j.ageVerified) throw new Error('Self provider token should verify');
+
+    // 5) Self-hosted webhook signature verification (valid signature)
+    const webhookPayload = { playerId: 'selfWeb', providerName: 'self', providerId: 'self-1', verified: true, age: 30 };
+    const bodyStr = JSON.stringify(webhookPayload);
+    const webhookSig = 'sha256=' + crypto.createHmac('sha256', secret).update(bodyStr).digest('hex');
+    r = await fetch('http://localhost:4000/verify/age/webhook', { method: 'POST', headers: {'Content-Type':'application/json', 'x-self-signature': webhookSig }, body: bodyStr });
+    j = await r.json();
+    if (!j.ok) throw new Error('Self webhook should return ok');
+
+    // 6) Self-hosted webhook signature verification (invalid signature should fail)
+    r = await fetch('http://localhost:4000/verify/age/webhook', { method: 'POST', headers: {'Content-Type':'application/json', 'x-self-signature': 'sha256=deadbeef' }, body: JSON.stringify(webhookPayload) });
+    if (r.status !== 403) throw new Error('Invalid self webhook signature should be rejected');
 
     console.log('\nAll backend verification tests passed.');
     process.exitCode = 0;
