@@ -1,0 +1,20 @@
+name: Godot tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  godot-test:
+    name: godot-test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run Godot headless tests (placeholder)
+        run: |
+          chmod +x ./scripts/run-godot-tests.sh || true
+          ./scripts/run-godot-tests.sh
