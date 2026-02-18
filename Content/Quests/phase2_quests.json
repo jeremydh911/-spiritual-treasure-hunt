@@ -1,0 +1,36 @@
+[
+  {
+    "id": "ANG-001",
+    "title": "Angel Guide",
+    "shortDescription": "An angel points you to a hidden Scripture fragment and encourages you to share it.",
+    "scriptureRefs": ["Hebrews 1:14","Psalm 91"],
+    "learningGoal": "recognize God's care and the role of ministering beings in Scripture",
+    "gameplayType": "narrative + discovery",
+    "ageRange": "7-14",
+    "virtueTags": ["Hope","Faithfulness"],
+    "sensitivity": "low",
+    "denomTags": [],
+    "childCopy": "An angel appears to guide you — follow the hint to find a Scripture fragment.",
+    "matureNote": "Angels are ministering spirits who serve God's purposes (Hebrews 1:14). Content frames angelic help as God's care, not magic.",
+    "rewards": ["spiritualStrength","scriptureFragment"],
+    "vetStatus": "draft",
+    "acceptanceCriteria": "Player locates the Scripture fragment and can state the short application." 
+  },
+  {
+    "id": "ANG-REVIVE",
+    "title": "Angel's Revival",
+    "shortDescription": "An angelic ministering action revives a fallen friend — teach how community and prayer sustain us.",
+    "scriptureRefs": ["Acts 12:7","Luke 22:43"],
+    "learningGoal": "understand God’s care and the role of community prayer",
+    "gameplayType": "cooperative / asynchronous",
+    "ageRange": "7-14",
+    "virtueTags": ["Compassion","Faithfulness"],
+    "sensitivity": "medium",
+    "denomTags": [],
+    "childCopy": "Send revive tokens and watch as an angel helps bring hope back to a friend.",
+    "matureNote": "Angel revives are framed as God’s caring action and community prayer, not ritualistic invocation.",
+    "rewards": ["communityToken"],
+    "vetStatus": "draft",
+    "acceptanceCriteria": "Angel revive triggers only with correct social/consent conditions and is audited." 
+  }
+]

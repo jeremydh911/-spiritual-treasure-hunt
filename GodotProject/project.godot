@@ -1,0 +1,12 @@
+config_version=4
+
+[application]
+name="Spiritual Treasure Hunt — Godot Prototype"
+main_scene="res://scenes/Main.tscn"
+
+[display]
+window/size/width=1280
+window/size/height=720
+
+[mono]
+enabled=true

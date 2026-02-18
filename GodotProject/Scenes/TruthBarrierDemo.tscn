@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource path="res://Scripts/TruthBarrier.cs" type="Script" id=1]
+[ext_resource path="res://Scripts/PlayerProfile.cs" type="Script" id=2]
+
+[node name="TruthBarrierDemo" type="Node2D"]
+
+[node name="Barrier" type="Node2D" parent="TruthBarrierDemo"]
+script = ExtResource( 1 )
+
+[node name="PlayerProfile" type="Node" parent="TruthBarrierDemo"]
+script = ExtResource( 2 )
+
+[node name="Status" type="Label" parent="TruthBarrierDemo"]
+text = "TruthBarrier demo: see console logs" 
+rect_position = Vector2(200, 180)

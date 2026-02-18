@@ -1,0 +1,10 @@
+{
+  "activities": [
+    { "id": "Service", "name": "Service / Helping Others", "scriptureRefs": ["Galatians 5:13","Matthew 25:35-40"], "description": "Serving others through practical help and kindness." },
+    { "id": "Mentoring", "name": "Mentoring / Discipleship", "scriptureRefs": ["2 Timothy 2:2","Titus 2"], "description": "Learning and teaching others in faith and life." },
+    { "id": "SabbathRest", "name": "Sabbath / Rest Practices", "scriptureRefs": ["Exodus 20:8-11","Mark 2:27"], "description": "Rhythms of rest and recalibration as worship." },
+    { "id": "ArtisticExpression", "name": "Art & Worship", "scriptureRefs": ["Psalm 150","Exodus 31:1-5"], "description": "Using art, music and creativity to worship and encourage others." },
+    { "id": "StewardshipPractice", "name": "Stewardship Practice", "scriptureRefs": ["Genesis 2:15","1 Peter 4:10"], "description": "Managing resources and gifts responsibly for God’s glory." },
+    { "id": "Accountability", "name": "Confession & Accountability (Mature)", "scriptureRefs": ["James 5:16","Galatians 6:1"], "description": "Safe confession and accountability relationships (Mature Mode).", "requiresMatureMode": true }
+  ]
+}

@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource path="res://Scripts/TruthQuest_IAmChosenTest.cs" type="Script" id=1]
+
+[node name="TruthQuest_IAmChosenTest" type="Node"]
+script = ExtResource( 1 )

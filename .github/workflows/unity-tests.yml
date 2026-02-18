@@ -1,0 +1,28 @@
+name: Unity - Run Tests
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+
+jobs:
+  unity-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run Unity EditMode + PlayMode tests
+        uses: game-ci/unity-test-runner@v2
+        with:
+          # Change this to match the Unity Editor version used by the project (ProjectSettings/ProjectVersion.txt)
+          unityVersion: 2021.3.14f1
+          projectPath: UnityProject
+          testMode: all
+          artifactsPath: TestResults
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+# NOTE: Running Unity on CI requires a valid Unity license or GitHub-hosted license setup.
+# - For open-source projects you can use a Personal or floating license and set UNITY_LICENSE env secret.
+# - Update `unityVersion` to the exact version in ProjectSettings/ProjectVersion.txt.

@@ -1,0 +1,63 @@
+[
+  {
+    "id": "ECHO-001",
+    "virtueReward": null,
+    "fruitReward": "Kindness"
+  },
+  {
+    "id": "JOY-002",
+    "virtueReward": null,
+    "fruitReward": "Joy",
+    "musicTrackReward": "WOR-JOY-001"
+  },
+  {
+    "id": "PRAY-003",
+    "virtueReward": null,
+    "fruitReward": "Faithfulness"
+  },
+  {
+    "id": "QUIET-004",
+    "virtueReward": null,
+    "fruitReward": "Patience"
+  },
+  {
+    "id": "NEIGH-005",
+    "virtueReward": null,
+    "fruitReward": "Goodness"
+  },
+  {
+    "id": "GARD-006",
+    "virtueReward": null,
+    "fruitReward": "Love"
+  },
+  {
+    "id": "WIS-001",
+    "virtueReward": "Wisdom",
+    "fruitReward": null
+  },
+  {
+    "id": "PRU-002",
+    "virtueReward": "CommonSense",
+    "fruitReward": null
+  },
+  {
+    "id": "UND-003",
+    "virtueReward": "Understanding",
+    "fruitReward": null
+  },
+  {
+    "id": "DIS-004",
+    "virtueReward": "Discernment",
+    "fruitReward": null
+  },
+  {
+    "id": "STEW-005",
+    "virtueReward": "Stewardship",
+    "fruitReward": null
+  },
+  {
+    "id": "PROP-001",
+    "virtueReward": "Hope",
+    "fruitReward": null
+  }
+]

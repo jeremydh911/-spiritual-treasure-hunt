@@ -1,0 +1,52 @@
+{
+  "virtues": [
+    {
+      "id": "Wisdom",
+      "name": "Wisdom (Lady Wisdom)",
+      "scriptureRefs": ["Proverbs 1:20-33","Proverbs 8"],
+      "livesWith": ["CommonSense","Understanding"],
+      "kidFriendlyDefinition": "Knowing the best thing to do and why it's right.",
+      "locationHint": "Find her speaking in the Market of Proverbs."
+    },
+    {
+      "id": "CommonSense",
+      "name": "Common Sense (Prudence)",
+      "scriptureRefs": ["Proverbs 2","Proverbs 22:3"],
+      "livesWith": ["Wisdom","Understanding"],
+      "kidFriendlyDefinition": "Everyday good judgement — thinking before you act.",
+      "locationHint": "Crossroads near the town gate — choose the safe path."
+    },
+    {
+      "id": "Understanding",
+      "name": "Understanding",
+      "scriptureRefs": ["Proverbs 3:13-18","Isaiah 11:2"],
+      "livesWith": ["Wisdom","Knowledge"],
+      "kidFriendlyDefinition": "Seeing what things mean and learning from them.",
+      "locationHint": "The House of Scrolls (library) — solve the riddle of meaning."
+    },
+    {
+      "id": "Discernment",
+      "name": "Discernment",
+      "scriptureRefs": ["1 John 4:1","Hebrews 5:14"],
+      "livesWith": ["Wisdom","Counsel"],
+      "kidFriendlyDefinition": "Knowing what is true and what is false about teaching.",
+      "locationHint": "The council hall — test the claims you hear."
+    },
+    {
+      "id": "Hope",
+      "name": "Hope",
+      "scriptureRefs": ["Romans 15:13","1 Peter 1:3"],
+      "livesWith": ["Faithfulness","Perseverance"],
+      "kidFriendlyDefinition": "Trusting God’s promises and looking forward to good things from Him.",
+      "locationHint": "The Hall of Promises — find the lamp of hope."
+    },
+    {
+      "id": "Stewardship",
+      "name": "Stewardship",
+      "scriptureRefs": ["Genesis 2:15","Matthew 25:14-30"],
+      "livesWith": ["Wisdom","Gratitude"],
+      "kidFriendlyDefinition": "Caring for the world and the gifts God gives.",
+      "locationHint": "The Kingdom Garden — tend the plants and learn to share."
+    }
+  ]
+}

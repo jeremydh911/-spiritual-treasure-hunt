@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &100000
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 100001}
+  m_Layer: 0
+  m_Name: SampleMiniGameScene
+  m_TagString: Untagged
+  m_Active: 1
+# NOTE: This is a lightweight placeholder scene file for the prototype. Open the Unity Editor and create a Scene
+# with a Canvas, add GridLayoutGroup, attach a Card prefab (Button + Text), then add the MemoryMatchMiniGame script and
+# assign 'cardPrefab', 'gridParent' and 'questId' (e.g., "ECHO-001" or a virtue quest). This file is a placeholder only.

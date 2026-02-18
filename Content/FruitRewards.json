@@ -1,0 +1,10 @@
+{
+  "rewards": [
+    { "questId": "ECHO-001", "fruit": "Kindness" },
+    { "questId": "JOY-002", "fruit": "Joy" },
+    { "questId": "PRAY-003", "fruit": "Faithfulness" },
+    { "questId": "QUIET-004", "fruit": "Peace" },
+    { "questId": "NEIGH-005", "fruit": "Goodness" },
+    { "questId": "GARD-006", "fruit": "Love" }
+  ]
+}

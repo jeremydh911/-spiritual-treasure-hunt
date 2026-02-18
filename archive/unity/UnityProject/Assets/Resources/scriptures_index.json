@@ -1,0 +1,38 @@
+[
+  {
+    "id": "SCRIPT-EPH6-17",
+    "reference": "Ephesians 6:17",
+    "text": "Take the helmet of salvation and the sword of the Spirit, which is the word of God.",
+    "tags": ["weapon","edification","memory"]
+  },
+  {
+    "id": "SCRIPT-PS23-1",
+    "reference": "Psalm 23:1",
+    "text": "The Lord is my shepherd; I shall not want.",
+    "tags": ["edification","prayer","memory"]
+  },
+  {
+    "id": "SCRIPT-JOHN14-6",
+    "reference": "John 14:6",
+    "text": "Jesus said, 'I am the way, and the truth, and the life.'",
+    "tags": ["edification","weapon","memory"]
+  },
+  {
+    "id": "SCRIPT-MATT6-9",
+    "reference": "Matthew 6:9",
+    "text": "Pray then like this: 'Our Father in heaven, hallowed be your name.'",
+    "tags": ["prayer","worship","memory"]
+  },
+  {
+    "id": "SCRIPT-ROM8-1",
+    "reference": "Romans 8:1",
+    "text": "There is therefore now no condemnation for those who are in Christ Jesus.",
+    "tags": ["dispel","edification","memory"]
+  },
+  {
+    "id": "SCRIPT-1PET2-9",
+    "reference": "1 Peter 2:9",
+    "text": "But you are a chosen people, a royal priesthood, a holy nation, God\'s special possession.",
+    "tags": ["truth","dispel","memory"]
+  }
+]
