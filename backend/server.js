@@ -10,6 +10,8 @@ app.use(bodyParser.json());
 // In-memory stores (demo only)
 const parentalConsents = {}; // key: parentId_childId => { parentId, childId, consentId }
 const profiles = {}; // key: playerId => profile JSON
+const churchOverrides = {}; // key: churchId => { adultModeDisabled: boolean }
+const contentVetting = {}; // key: contentId => { vetStatus: 'pending'|'vetted'|'rejected' }
 
 app.post('/consent/grant', (req, res) => {
   const { parentId, childId } = req.body || {};
@@ -99,7 +101,7 @@ app.post('/verify/age/webhook', (req, res) => {
   const { playerId, providerName, providerId, verified, age } = payload;
   if (!playerId || !providerName) return res.status(400).json({ error: 'playerId and providerName required' });
 
-  // Production: validate webhook signature using provider keys. Demo accepts the payload.
+  // Production: validate webhook signature using provider keys. Demo accepts the payload for demo providers.
   if (!ageProvider.verifyWebhookSignature(providerName, req.headers, payload)) {
     appendAudit('age.verify.webhook.rejected', { providerName, payload });
     return res.status(403).json({ error: 'invalid webhook signature' });
@@ -116,13 +118,66 @@ app.post('/verify/age/webhook', (req, res) => {
   return res.json({ ok: true });
 });
 
+// --- Admin: church override endpoints (demo only) ---
+app.post('/admin/church/override', (req, res) => {
+  const { churchId, adultModeDisabled } = req.body || {};
+  if (!churchId || typeof adultModeDisabled !== 'boolean') return res.status(400).json({ error: 'churchId and adultModeDisabled(boolean) required' });
+  churchOverrides[churchId] = { adultModeDisabled };
+  appendAudit('admin.church.override', { churchId, adultModeDisabled });
+  return res.json({ ok: true, churchId, adultModeDisabled });
+});
+
+app.get('/admin/church/:churchId/status', (req, res) => {
+  const st = churchOverrides[req.params.churchId] || { adultModeDisabled: false };
+  return res.json(st);
+});
+
+// --- Admin: content vetting endpoints (demo only) ---
+app.post('/admin/content/vet', (req, res) => {
+  const { contentId, vetStatus } = req.body || {};
+  if (!contentId || !vetStatus) return res.status(400).json({ error: 'contentId and vetStatus required' });
+  contentVetting[contentId] = { vetStatus };
+  appendAudit('admin.content.vet', { contentId, vetStatus });
+  return res.json({ ok: true, contentId, vetStatus });
+});
+
+app.get('/content/vet-status', (req, res) => {
+  // Merge local content list with vetStatus (demo)
+  const fs = require('fs');
+  const path = require('path');
+  const truthsPath = path.join(__dirname, '..', 'Content', 'Truths', 'truths_index.json');
+  let truths = [];
+  try { truths = JSON.parse(fs.readFileSync(truthsPath, 'utf8')); } catch (e) { /* ignore */ }
+  const merged = truths.map(t => ({ ...t, vetStatus: (contentVetting[t.id] && contentVetting[t.id].vetStatus) || t.vetStatus || 'pending' }));
+  return res.json({ items: merged });
+});
+
 app.post('/sync/profile', (req, res) => {
   const { playerId, consentId, profile } = req.body || {};
   if (!playerId) return res.status(400).json({ error: 'playerId required' });
-  // Basic consent check (demo): accept if any consent exists for parent-child matching consentId
+
+  // COPPA enforcement: disallow telemetry for child accounts under 13
+  if (profile && profile.telemetryEnabled && profile.dob) {
+    const dob = new Date(profile.dob);
+    const today = new Date();
+    let age = today.getUTCFullYear() - dob.getUTCFullYear();
+    const m = today.getUTCMonth() - dob.getUTCMonth();
+    if (m < 0 || (m === 0 && today.getUTCDate() < dob.getUTCDate())) age--;
+    if (age < 13) return res.status(403).json({ error: 'COPPA: telemetry forbidden for accounts under 13' });
+  }
+
+  // Consent check: require parental consent for cloud save if profile.cloudSaveEnabled is true
   const consentFound = Object.values(parentalConsents).some(c => c.consentId === consentId);
-  if (!consentFound) return res.status(403).json({ error: 'parental consent required' });
+  if (profile && profile.cloudSaveEnabled && !consentFound) return res.status(403).json({ error: 'parental consent required for cloud save' });
+
+  // Merge church override flag if exists for player's churchId
+  const churchId = profile && profile.churchId ? profile.churchId : null;
+  if (churchId && churchOverrides[churchId] && churchOverrides[churchId].adultModeDisabled) {
+    profile.adultModeDisabledByChurch = true;
+  }
+
   profiles[playerId] = profile;
+
   // persist to disk for the demo
   try {
     const fs = require('fs');
@@ -133,7 +188,8 @@ app.post('/sync/profile', (req, res) => {
   } catch (e) {
     console.warn('Failed to persist profile to disk (demo):', e.message);
   }
-  return res.json({ ok: true });
+  appendAudit('sync.profile', { playerId, consentId, cloudSaveEnabled: !!(profile && profile.cloudSaveEnabled) });
+  return res.json({ ok: true, consent: consentFound || false });
 });
 
 app.get('/profile/:playerId', (req, res) => {
