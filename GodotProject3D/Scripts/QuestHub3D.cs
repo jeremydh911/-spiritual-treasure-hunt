@@ -9,7 +9,25 @@ public partial class QuestHub3D : Node3D
 
     public override void _Ready()
     {
-        // optional initialization
+        // automatically load all quest scenes from a folder
+        if (questScenes == null || questScenes.Length == 0)
+        {
+            var dir = new Directory();
+            if (dir.Open("res://Scenes/Quests3D") == Error.Ok)
+            {
+                var files = dir.GetFiles();
+                var list = new List<PackedScene>();
+                foreach (var f in files)
+                {
+                    if (f.EndsWith(".tscn"))
+                    {
+                        var scene = GD.Load<PackedScene>("res://Scenes/Quests3D/" + f);
+                        if (scene != null) list.Add(scene);
+                    }
+                }
+                questScenes = list.ToArray();
+            }
+        }
     }
 
     public override void _Input(InputEvent @event)

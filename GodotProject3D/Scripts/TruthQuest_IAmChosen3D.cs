@@ -45,11 +45,13 @@ public partial class TruthQuest_IAmChosen3D : Node3D
         {
             profile.AddTruth("TRU-CHOSEN");
             if (statusLabel != null) statusLabel.Text = "Truth gained: I Am Chosen";
+            profile.RecordQuestResult("IAmChosen3D", memoryGame?.Attempts ?? 0, memoryGame?.Duration ?? 0f, true);
             WriteResultToDisk(true);
             return true;
         }
 
         if (statusLabel != null) statusLabel.Text = "Barrier remains — try another scripture.";
+        profile.RecordQuestResult("IAmChosen3D", memoryGame?.Attempts ?? 0, memoryGame?.Duration ?? 0f, false);
         WriteResultToDisk(false);
         return false;
     }

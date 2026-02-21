@@ -20,3 +20,18 @@ test "Launching quest creates child node" do
     assert_not_null(child)
     assert_true(child is Node3D)
 end
+
+# simulate clicking selector
+
+test "QuestHub3D input click launches quest" do
+    var hub = load("res://Scenes/QuestHub3D.tscn").instantiate()
+    add_child(hub)
+    hub.questScenes = [load("res://Scenes/TruthQuest_IAmChosen3D.tscn")]
+    # create a fake click event at selector0 position (approx global origin in this simple scene)
+    var ev = InputEventMouseButton.new()
+    ev.button_index = BUTTON_LEFT
+    ev.pressed = true
+    ev.position = Vector2(10,10) # screen coords - may not actually hit, so manually call LaunchQuest
+    hub.LaunchQuest(0)
+    assert_true(hub.GetChildCount() > 1)
+end

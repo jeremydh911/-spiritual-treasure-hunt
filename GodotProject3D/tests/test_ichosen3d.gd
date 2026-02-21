@@ -24,4 +24,9 @@ test "TruthQuest_IAmChosen3D loads and can run and barrier reacts" do
         var res = scene.call("RunDemoAsync", prof)
         assert_true(res is GDScriptFunctionState)
     end
+
+    # verify profile recorded result
+    var result = prof.GetQuestResult("IAmChosen3D")
+    assert_not_null(result)
+    assert_true(result.has("attempts"))
 end
