@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 public partial class MemoryMiniGame3D : Node3D
 {
     [Export] private PackedScene cardScene;
+    [Export] public string[] scriptures = new string[] { "John3:16", "Psalm23", "1Pet2:9", "Gen1:1" };
     private List<Node3D> cards = new();
 
     // logical state
@@ -44,9 +45,15 @@ public partial class MemoryMiniGame3D : Node3D
         for (int i = 0; i < size; i++)
         {
             var card = (Node3D)cardScene.Instantiate();
+            card.Name = $"Card{i}";
             card.Position = new Vector3((i % pairs) * 2 - 1, 0, (i / pairs) * 2 - 1);
             AddChild(card);
             cards.Add(card);
+            // assign scripture text according to card value
+            var val = cardValues[i];
+            string scr = scriptures.Length > 0 ? scriptures[val % scriptures.Length] : "";
+            if (card is Card3D c3) c3.SetText(scr);
+            else card.Call("SetText", scr);
         }
     }
 

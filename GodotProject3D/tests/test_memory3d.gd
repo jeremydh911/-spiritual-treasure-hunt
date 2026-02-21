@@ -3,7 +3,19 @@ extends "res://addons/gut/gut.gd"
 test "MemoryMiniGame3D logical grid operations" do
     var scene = load("res://Scripts/MemoryMiniGame3D.cs").new()
     add_child(scene)
+    scene.scriptures = ["A","B","C"]
     scene.InitGrid(2)
+    # verify text assignment on first two cards by name
+    var card0 = scene.get_node_or_null("Card0")
+    var card1 = scene.get_node_or_null("Card1")
+    assert_not_null(card0)
+    assert_not_null(card1)
+    assert_true(card0.has_method("SetText"))
+    assert_true(card1.has_method("SetText"))
+    var lbl0 = card0.get_node_or_null("Label")
+    if lbl0:
+        assert_true(lbl0.text != "")
+    # basic flip logic
     assert_true(scene.FlipIndex(0))
     assert_true(scene.FlipIndex(1))
     # even if they don't match, FlipIndex should not crash
