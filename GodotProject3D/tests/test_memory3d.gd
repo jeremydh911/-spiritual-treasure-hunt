@@ -3,6 +3,10 @@ extends "res://addons/gut/gut.gd"
 test "MemoryMiniGame3D logical grid operations" do
     var scene = load("res://Scripts/MemoryMiniGame3D.cs").new()
     add_child(scene)
+    # attach dummy status label
+    var lbl = Label3D.new()
+    scene.statusLabel = lbl
+    scene.add_child(lbl)
     scene.scriptures = ["A","B","C"]
     scene.InitGrid(2)
     # verify text assignment on first two cards by name
@@ -26,6 +30,8 @@ test "MemoryMiniGame3D logical grid operations" do
     assert_true(scene.FlipIndex(0))
     assert_true(scene.FlipIndex(1))
     assert_true(scene.IsComplete())
+    # verify status label update
+    assert_true(lbl.text.find("Done") != -1)
     # verify tracking
     assert_true(scene.Attempts >= 1)
     assert_true(scene.Duration >= 0.0)

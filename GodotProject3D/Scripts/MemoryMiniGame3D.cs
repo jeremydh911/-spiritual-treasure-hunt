@@ -7,6 +7,7 @@ public partial class MemoryMiniGame3D : Node3D
 {
     [Export] private PackedScene cardScene;
     [Export] public string[] scriptures = new string[] { "John3:16", "Psalm23", "1Pet2:9", "Gen1:1" };
+    [Export] public Label3D statusLabel;
     private List<Node3D> cards = new();
 
     // logical state
@@ -26,6 +27,8 @@ public partial class MemoryMiniGame3D : Node3D
 
     public void InitGrid(int pairs = 2)
     {
+        // optional scripture loader
+        LoadScripturesFromContent();
         CleanupCards();
         var size = pairs * 2;
         cardValues = new int[size];
@@ -94,6 +97,8 @@ public partial class MemoryMiniGame3D : Node3D
         if (IsComplete())
         {
             Duration = (float)(DateTime.UtcNow - startTime).TotalSeconds;
+            if (statusLabel != null)
+                statusLabel.Text = $"Done in {Attempts} attempts ({Duration:F2}s)";
         }
         return true;
     }
@@ -115,6 +120,28 @@ public partial class MemoryMiniGame3D : Node3D
     public bool SimulateWin()
     {
         return true;
+    }
+
+    private void LoadScripturesFromContent()
+    {
+        if (scriptures != null && scriptures.Length > 0) return; // already set
+        try
+        {
+            var path = ProjectSettings.GlobalizePath("res://../Content/Truths/truths_index.json");
+            var json = System.IO.File.ReadAllText(path);
+            var arr = JSON.Parse(json);
+            if (arr.Result is Godot.Collections.Array list)
+            {
+                var tmp = new List<string>();
+                foreach (var item in list)
+                {
+                    if (item is Godot.Collections.Dictionary dict && dict.Contains("id"))
+                        tmp.Add(dict["id"].ToString());
+                }
+                scriptures = tmp.ToArray();
+            }
+        }
+        catch (Exception) { /* ignore */ }
     }
 
     public async Task<bool> PlayAsync()
