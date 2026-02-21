@@ -15,6 +15,10 @@ public partial class MemoryMiniGame3D : Node3D
     private int firstFlipped = -1;
     private int secondFlipped = -1;
 
+    public int Attempts { get; private set; }
+    public float Duration { get; private set; } // seconds
+    private DateTime startTime;
+
     public override void _Ready()
     {
         InitGrid();
@@ -66,6 +70,8 @@ public partial class MemoryMiniGame3D : Node3D
 
     public bool FlipIndex(int index)
     {
+        if (startTime == default) startTime = DateTime.UtcNow;
+        Attempts++;
         if (cardValues == null || index < 0 || index >= cardValues.Length) return false;
         if (matched[index]) return false;
         if (firstFlipped == -1){
@@ -85,6 +91,10 @@ public partial class MemoryMiniGame3D : Node3D
         }
         firstFlipped = -1;
         secondFlipped = -1;
+        if (IsComplete())
+        {
+            Duration = (float)(DateTime.UtcNow - startTime).TotalSeconds;
+        }
         return true;
     }
 

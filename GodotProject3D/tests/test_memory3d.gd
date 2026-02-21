@@ -26,6 +26,9 @@ test "MemoryMiniGame3D logical grid operations" do
     assert_true(scene.FlipIndex(0))
     assert_true(scene.FlipIndex(1))
     assert_true(scene.IsComplete())
+    # verify tracking
+    assert_true(scene.Attempts >= 1)
+    assert_true(scene.Duration >= 0.0)
 end
 
 test "MemoryMiniGame3D instantiates visual cards" do
