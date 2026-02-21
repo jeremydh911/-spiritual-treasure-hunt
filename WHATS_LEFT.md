@@ -80,6 +80,12 @@ Each line shows: task, area, priority, rough estimate, and the exact next action
   - Estimate: 2–4 days
   - Next action: add `denomApprovals[]` to content schema and admin endpoints to set approvals.
 
+- [ ] B6 — 3D engine prototype & asset pipeline
+  - Area: Gameplay / Engine
+  - Priority: B
+  - Estimate: 3–5 days
+  - Next action: build simple 3D scenes (`SinBridgeDemo3D`, `MemoryMiniGame3D`) and verify Godot 3D workflows.
+
 ---
 
 ## Backlog / polish (C)

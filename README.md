@@ -4,7 +4,7 @@ Overview
 - Short: a cross-platform (iOS/Android) Unity-based educational RPG with mini‑games and quests that teach biblical virtues and lead players toward spiritual growth.
 - Target age: 7–18 (Mature Mode 18+ via age verification)
 - Core themes: virtues (Love, Joy, Peace, etc.), Scripture-based quests (Genesis→Revelation), community/asynchronous features, "whimsy not magic" design.
-- Alternative engine support: a Godot 4.2 (C#) scaffold is available at `GodotProject/` for migration or parallel development.
+- Alternative engine support: a Godot 4.2 (C#) scaffold is available at `GodotProject/` for migration or parallel development. A separate 3D prototype lives in `GodotProject3D/` with basic scenes (SinBridgeDemo3D, MemoryMiniGame3D) to explore a fully three‑dimensional look and feel.
 - Assistant context: see `ASSISTANT_CONTEXT.md` (commit it to the repo and open it in the editor — you won't need to drag files into chat).
 
 What's in this workspace (initial scaffold)

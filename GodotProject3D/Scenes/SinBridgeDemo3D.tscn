@@ -1,0 +1,35 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://../Scripts/SinBridge3D.cs" type="Script" id=1]
+
+[node name="SinBridgeDemo3D" type="Node3D"]
+script = ExtResource( 1 )
+
+[node name="Camera" type="Camera3D" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 8)
+
+[node name="DirectionalLight" type="DirectionalLight3D" parent="."]
+rotation = Vector3( -0.8, 0.3, 0)
+
+[node name="BridgeParent" type="Node3D" parent="."]
+
+[node name="Floor" type="MeshInstance3D" parent="BridgeParent"]
+mesh = SubResource( 1 )
+
+[sub_resource type="PlaneMesh" id=1]
+size = Vector3( 10, 10, 0 )
+
+[node name="Counter" type="Label3D" parent="."]
+position = Vector3( -4, 3, 0 )
+text = "Hits: 0"
+
+[node name="CubeLeft" type="MeshInstance3D" parent="BridgeParent"]
+mesh = SubResource( 2 )
+transform = Transform( 1,0,0,0,1,0,0,0,1,-2,0,0)
+
+[node name="CubeRight" type="MeshInstance3D" parent="BridgeParent"]
+mesh = SubResource( 2 )
+transform = Transform( 1,0,0,0,1,0,0,0,1,2,0,0)
+
+[sub_resource type="CubeMesh" id=2]
+size = Vector3(1,1,1)

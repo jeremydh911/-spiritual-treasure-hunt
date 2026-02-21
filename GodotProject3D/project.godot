@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=2]
+
+[application]
+config/name="Spiritual Treasure Hunt 3D"
+config/description="3D prototype for the Spiritual Treasure Hunt educational RPG"
+main_scene="res://Scenes/SinBridgeDemo3D.tscn"
+
+[rendering]
+quality/driver/quality="medium"
+
+[input]
+
+[autoload]
