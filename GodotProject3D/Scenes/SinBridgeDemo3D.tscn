@@ -23,6 +23,10 @@ size = Vector3( 10, 10, 0 )
 position = Vector3( -4, 3, 0 )
 text = "Hits: 0"
 
+[node name="Status" type="Label3D" parent="."]
+position = Vector3( -4, 2, 0 )
+text = "Status:"
+
 [node name="CubeLeft" type="MeshInstance3D" parent="BridgeParent"]
 mesh = SubResource( 2 )
 transform = Transform( 1,0,0,0,1,0,0,0,1,-2,0,0)
