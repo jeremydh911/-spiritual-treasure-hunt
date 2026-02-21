@@ -2,6 +2,7 @@
 
 [ext_resource path="res://../Scripts/TruthQuest_IAmChosen3D.cs" type="Script" id=1]
 [ext_resource path="res://../Scripts/MemoryMiniGame3D.cs" type="Script" id=2]
+[ext_resource path="res://../Scripts/TruthBarrier3D.cs" type="Script" id=3]
 
 [node name="TruthQuest_IAmChosen3D" type="Node3D"]
 script = ExtResource( 1 )
@@ -10,6 +11,14 @@ script = ExtResource( 1 )
 script = ExtResource( 2 )
 
 [node name="Barrier" type="Node3D" parent="TruthQuest_IAmChosen3D"]
+script = ExtResource( 3 )
+
+[node name="Mesh" type="MeshInstance3D" parent="Barrier"]
+mesh = SubResource( 1 )
+material/0/albedo_color = Color(1,0,0)
+
+[sub_resource type="CubeMesh" id=1]
+size = Vector3(2,2,0.1)
 
 [node name="Status" type="Label3D" parent="TruthQuest_IAmChosen3D"]
 position = Vector3( 0, 3, 0 )
