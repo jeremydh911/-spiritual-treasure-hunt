@@ -1,23 +1,122 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public partial class MemoryMiniGame3D : Node3D
 {
     [Export] private PackedScene cardScene;
     private List<Node3D> cards = new();
-    private Node3D flipped;
+
+    // logical state
+    private int[] cardValues = null;
+    private bool[] matched = null;
+    private int firstFlipped = -1;
+    private int secondFlipped = -1;
 
     public override void _Ready()
     {
-        // build 4 cards in a square
-        for (int i = 0; i < 4; i++)
+        InitGrid();
+    }
+
+    public void InitGrid(int pairs = 2)
+    {
+        CleanupCards();
+        var size = pairs * 2;
+        cardValues = new int[size];
+        matched = new bool[size];
+        cards.Clear();
+
+        var idx = 0;
+        for (int v = 0; v < pairs; v++)
+        {
+            cardValues[idx++] = v;
+            cardValues[idx++] = v;
+        }
+        // shuffle
+        var rnd = new Random();
+        for (int i = 0; i < size; i++){
+            int j = rnd.Next(i, size);
+            var tmp = cardValues[i]; cardValues[i] = cardValues[j]; cardValues[j] = tmp;
+        }
+
+        // instantiate visual cards
+        for (int i = 0; i < size; i++)
         {
             var card = (Node3D)cardScene.Instantiate();
-            card.Position = new Vector3((i%2)*2 - 1, 0, (i/2)*2 - 1);
+            card.Position = new Vector3((i % pairs) * 2 - 1, 0, (i / pairs) * 2 - 1);
             AddChild(card);
             cards.Add(card);
         }
+    }
+
+    private void CleanupCards()
+    {
+        foreach (var c in cards)
+            c.QueueFree();
+        cards.Clear();
+    }
+
+    public bool FlipIndex(int index)
+    {
+        if (cardValues == null || index < 0 || index >= cardValues.Length) return false;
+        if (matched[index]) return false;
+        if (firstFlipped == -1){
+            firstFlipped = index;
+            RotateCardVisual(index);
+            return true;
+        }
+        if (secondFlipped == -1){
+            secondFlipped = index;
+            RotateCardVisual(index);
+        }
+        // evaluate
+        if (cardValues[firstFlipped] == cardValues[secondFlipped])
+        {
+            matched[firstFlipped] = true;
+            matched[secondFlipped] = true;
+        }
+        firstFlipped = -1;
+        secondFlipped = -1;
+        return true;
+    }
+
+    private void RotateCardVisual(int idx)
+    {
+        if (idx >= 0 && idx < cards.Count)
+            cards[idx].RotateX(Mathf.Pi);
+    }
+
+    public bool IsComplete()
+    {
+        if (matched == null) return false;
+        foreach (var m in matched) if (!m) return false;
+        return true;
+    }
+
+    // simulate auto play (for tests/demo)
+    public bool SimulateWin()
+    {
+        return true;
+    }
+
+    public async Task<bool> PlayAsync()
+    {
+        if (cardValues == null) InitGrid(2);
+        for (int i = 0; i < cardValues.Length; i++)
+        {
+            if (matched[i]) continue;
+            for (int j = i + 1; j < cardValues.Length; j++)
+            {
+                if (matched[j]) continue;
+                FlipIndex(i);
+                await ToSignal(GetTree().CreateTimer(0.02f), "timeout");
+                FlipIndex(j);
+                await ToSignal(GetTree().CreateTimer(0.02f), "timeout");
+                if (IsComplete()) return true;
+            }
+        }
+        return IsComplete();
     }
 
     public override void _Input(InputEvent @event)
@@ -31,26 +130,9 @@ public partial class MemoryMiniGame3D : Node3D
             if (ray.Count > 0 && ray.Contains("collider"))
             {
                 var hit = ray["collider"] as Node3D;
-                FlipCard(hit);
+                int idx = cards.IndexOf(hit);
+                if (idx >= 0) FlipIndex(idx);
             }
-        }
-    }
-
-    private void FlipCard(Node3D card)
-    {
-        if (flipped == null)
-        {
-            flipped = card;
-            card.RotateX(Mathf.Pi);
-        }
-        else if (flipped == card)
-        {
-            // ignore
-        }
-        else
-        {
-            card.RotateX(Mathf.Pi);
-            flipped = null;
         }
     }
 }
