@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://../Scripts/ProfileSettings3D.cs" type="Script" id=1]
+
+[node name="ProfileSettings3D" type="Node3D"]
+script = ExtResource( 1 )
+
+[node name="CloudToggle" type="CheckBox" parent="."]
+text = "Cloud Save"
+position = Vector3( -1, 2, 0 )
+
+[node name="TelemetryToggle" type="CheckBox" parent="."]
+text = "Telemetry"
+position = Vector3( -1, 1, 0 )
+
+[node name="SyncButton" type="Button" parent="."]
+text = "Sync Profile"
+position = Vector3( -1, 0, 0 )
+
+[node name="Status" type="Label3D" parent="."]
+position = Vector3( -1, -1, 0 )
+text = ""
