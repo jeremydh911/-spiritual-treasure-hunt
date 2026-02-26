@@ -31,6 +31,11 @@ test "ProfileSettings3D loads and toggles" do
     assert_true(cloud.pressed)
     assert_false(tel.pressed)
 
+    # enabling telemetry should stamp consent time
+    tel.toggled(true)
+    assert_true(scene.profile.telemetryEnabled)
+    assert_true(scene.profile.telemetryConsentedAt != "")
+
     # verify and consent modify profile
     var prof = PlayerProfile.new()
     prof.dob = "2000-01-01"

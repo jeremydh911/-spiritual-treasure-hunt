@@ -35,6 +35,14 @@ async function waitForServer(url, timeoutMs = 5000) {
     const profile2 = { playerId: 'teen1', dob: '2005-01-01', telemetryEnabled: true };
     r = await fetch('http://localhost:4000/sync/profile', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ playerId: 'teen1', profile: profile2 }) });
     if (r.status !== 200) throw new Error('telemetry-enabled profile sync should succeed for older users');
+    let data = await r.json();
+    if (!data.ok) throw new Error('sync response not ok');
+
+    // inspect stored profile to ensure consent timestamp was stamped
+    const pResp = await fetch('http://localhost:4000/profile/teen1');
+    const pjson = await pResp.json();
+    if (!pjson.profile || !pjson.profile.telemetryConsentedAt) throw new Error('telemetry consent timestamp should be set on sync');
+
 
     // send telemetry event for teen1
     r = await fetch('http://localhost:4000/telemetry/event', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ playerId: 'teen1', event: 'test_event' }) });

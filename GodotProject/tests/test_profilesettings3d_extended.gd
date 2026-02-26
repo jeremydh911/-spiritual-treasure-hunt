@@ -35,4 +35,9 @@ test "ProfileSettings3D controls and accessibility" do
     assert_true(prof.narrationEnabled)
     contrast.toggled(true)
     assert_true(prof.highContrastMode)
+
+    # telemetry consent tracking
+    scene.telemetryToggle.toggled(true)
+    assert_true(prof.telemetryEnabled)
+    assert_true(prof.telemetryConsentedAt != "")
 end

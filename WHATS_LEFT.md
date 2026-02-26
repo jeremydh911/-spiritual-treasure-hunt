@@ -98,8 +98,8 @@ Each line shows: task, area, priority, rough estimate, and the exact next action
 - [x] C3 — Accessibility features (text size, narration toggle, color contrast)
   - Next action: accessibility toggles added to 3D settings UI with corresponding GUT tests.
 
-- [ ] C4 — Telemetry: opt‑in gating and privacy review
-  - Next action: finalize events to keep learning offline-first; gate telemetry behind explicit consent.
+- [x] C4 — Telemetry: opt‑in gating and privacy review
+  - Next action: backend stamps consent timestamp and enforces COPPA/opt-in; tests added.
 
 - [ ] C5 — Release: mobile export scripts + store listing checklist
   - Next action: draft Play Store / App Store metadata; prepare build scripts.

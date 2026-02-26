@@ -24,6 +24,8 @@ public partial class PlayerProfile : Node
 
     // Telemetry / COPPA
     public bool telemetryEnabled = false;
+    // record when the player explicitly opted into telemetry
+    public string telemetryConsentedAt = "";
 
     // Accessibility
     public enum TextSize { Small, Normal, Large }

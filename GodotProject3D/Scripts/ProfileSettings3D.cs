@@ -80,8 +80,10 @@ public partial class ProfileSettings3D : Node3D
     {
         if (profile != null)
         {
-            profile.telemetryEnabled = pressed;
-            SaveManager.SaveLocalProfile(profile);
+            profile.telemetryEnabled = pressed;            if (pressed && string.IsNullOrEmpty(profile.telemetryConsentedAt))
+            {
+                profile.telemetryConsentedAt = System.DateTime.UtcNow.ToString("o");
+            }            SaveManager.SaveLocalProfile(profile);
             UpdateStatus("Telemetry " + (pressed?"enabled":"disabled"));
         }
     }
