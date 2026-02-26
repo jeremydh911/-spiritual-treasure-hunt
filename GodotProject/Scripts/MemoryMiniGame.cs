@@ -6,9 +6,18 @@ using System.Threading.Tasks;
 /// - `SimulateWin()` returns true for automated tests.
 /// - `PlayAsync()` simulates a short play duration and returns success/fail.
 /// </summary>
-public partial class MemoryMiniGame : Node
+public partial class MemoryMiniGame : Node2D
 {
     [Export] public string scriptureId = "SCRIPT-1PET2-9";
+    [Export] public PackedScene cardButtonScene;
+
+    // logical state
+    private int[] cards = null; // pairs represented by integers
+    private bool[] matched = null;
+    private int firstFlipped = -1;
+    private int secondFlipped = -1;
+
+    private List<Button> uiCards = new();
 
     // Simulate a correct play (used by tests and quick demo)
     public bool SimulateWin()
@@ -17,17 +26,23 @@ public partial class MemoryMiniGame : Node
         return true;
     }
 
-    // A small logical memory game implementation for tests/demo
-    private int[] cards = null; // pairs represented by integers
-    private bool[] matched = null;
-    private int firstFlipped = -1;
-    private int secondFlipped = -1;
+    public override void _Ready()
+    {
+        // optional: auto-create buttons if cardButtonScene provided
+        if (cardButtonScene != null && uiCards.Count == 0)
+        {
+            InitGrid(3);
+        }
+    }
 
     public void InitGrid(int pairs = 3)
     {
+        CleanupUI();
+
         var size = pairs * 2;
         cards = new int[size];
         matched = new bool[size];
+        uiCards.Clear();
         var idx = 0;
         for (int v = 0; v < pairs; v++)
         {
@@ -40,6 +55,34 @@ public partial class MemoryMiniGame : Node
         {
             int j = rnd.Next(i, size);
             var tmp = cards[i]; cards[i] = cards[j]; cards[j] = tmp;
+        }
+        // create UI buttons
+        for (int i = 0; i < size; i++)
+        {
+            var btn = cardButtonScene != null ? (Button)cardButtonScene.Instantiate() : new Button();
+            btn.Name = $"Card{i}";
+            btn.Text = "?";
+            btn.RectPosition = new Vector2((i % pairs) * 80, (i / pairs) * 80);
+            AddChild(btn);
+            uiCards.Add(btn);
+            int ii = i;
+            btn.Pressed += () => OnCardPressed(ii);
+        }
+    }
+
+    private void CleanupUI()
+    {
+        foreach (var b in uiCards) b.QueueFree();
+        uiCards.Clear();
+    }
+
+    private void OnCardPressed(int index)
+    {
+        FlipCard(index);
+        if (uiCards.Count > index)
+        {
+            uiCards[index].Text = cards[index].ToString();
+            if (matched[index]) uiCards[index].Disabled = true;
         }
     }
 

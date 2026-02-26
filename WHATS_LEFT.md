@@ -38,11 +38,11 @@ Each line shows: task, area, priority, rough estimate, and the exact next action
   - Estimate: 3 days
   - Next action: add UI and metadata filter to mark `vetStatus` → `vetted` + export for denominational reviewers.
 
-- [ ] A5 — COPPA & GDPR compliance checklist + automated tests
+- [x] A5 — COPPA & GDPR compliance checklist + automated tests
   - Area: Policy / QA
   - Priority: A
   - Estimate: 1–2 days
-  - Next action: add COPPA checks to CI (no analytics for child accounts) and document retention rules.
+  - Notes: telemetry endpoint added with COPPA guard, backend tests expanded, privacy policy updated with retention rules.
 
 ---
 
@@ -95,8 +95,8 @@ Each line shows: task, area, priority, rough estimate, and the exact next action
 - [ ] C2 — Art pass (kingdom UI, bridge, character silhouettes)
   - Next action: prepare artist briefs for each demo scene.
 
-- [ ] C3 — Accessibility features (text size, narration toggle, color contrast)
-  - Next action: add accessibility toggles in Settings and test with screen readers.
+- [x] C3 — Accessibility features (text size, narration toggle, color contrast)
+  - Next action: accessibility toggles added to 3D settings UI with corresponding GUT tests.
 
 - [ ] C4 — Telemetry: opt‑in gating and privacy review
   - Next action: finalize events to keep learning offline-first; gate telemetry behind explicit consent.

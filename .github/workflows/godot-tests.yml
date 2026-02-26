@@ -16,15 +16,5 @@ jobs:
 
       - name: Run Godot headless tests (script)
         run: |
-          chmod +x ./scripts/run-godot-tests.sh || true
+          chmod +x ./scripts/run-godot-tests.sh
           ./scripts/run-godot-tests.sh
-
-  godot-headless-try:
-    name: attempt-godot-headless
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Try to run Godot (non-fatal)
-        run: |
-          echo "Attempting to run Godot tests (will succeed gracefully if Godot not present)..."
-          ./scripts/run-godot-tests.sh || true
