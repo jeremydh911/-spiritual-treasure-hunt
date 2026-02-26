@@ -92,8 +92,8 @@ Each line shows: task, area, priority, rough estimate, and the exact next action
 - [ ] C1 — Full audio/VO pipeline (narration + affirmation clips)
   - Next action: create audio manifest and placeholder clips in `Assets/Audio/` and `GodotProject/Resources/`.
 
-- [ ] C2 — Art pass (kingdom UI, bridge, character silhouettes)
-  - Next action: prepare artist briefs for each demo scene.
+- [x] C2 — Art pass (kingdom UI, bridge, character silhouettes)
+  - Notes: placeholder assets added under `GodotProject/Resources/Art`; artist briefs in briefs.md.
 
 - [ ] C3 — Accessibility features (text size, narration toggle, color contrast)
   - Next action: add accessibility toggles in Settings and test with screen readers.
