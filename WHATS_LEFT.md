@@ -74,11 +74,11 @@ Each line shows: task, area, priority, rough estimate, and the exact next action
   - Estimate: 1–2 days
   - Next action: add `SaveLocalGuideToDisk` calls where applicable and ensure offline fallback copy exists.
 
-- [ ] B5 — Denominational vet approval integration (data + per‑church flags)
+- [x] B5 — Denominational vet approval integration (data + per‑church flags)
   - Area: Content / Backend
   - Priority: B
   - Estimate: 2–4 days
-  - Next action: add `denomApprovals[]` to content schema and admin endpoints to set approvals.
+  - Notes: added denomApprovals store and `/admin/content/approve` endpoint; tests updated.
 
 - [ ] B6 — 3D engine prototype & asset pipeline
   - Area: Gameplay / Engine

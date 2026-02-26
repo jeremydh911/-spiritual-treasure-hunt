@@ -12,6 +12,8 @@ const parentalConsents = {}; // key: parentId_childId => { parentId, childId, co
 const profiles = {}; // key: playerId => profile JSON
 const churchOverrides = {}; // key: churchId => { adultModeDisabled: boolean }
 const contentVetting = {}; // key: contentId => { vetStatus: 'pending'|'vetted'|'rejected' }
+// denominational approvals: contentId => { churchId: boolean }
+const denomApprovals = {}; // demo store
 
 app.post('/consent/grant', (req, res) => {
   const { parentId, childId } = req.body || {};
@@ -141,6 +143,18 @@ app.post('/admin/content/vet', (req, res) => {
   return res.json({ ok: true, contentId, vetStatus });
 });
 
+// denom approval endpoint
+app.post('/admin/content/approve', (req, res) => {
+  const { contentId, churchId, approved } = req.body || {};
+  if (!contentId || !churchId || typeof approved !== 'boolean') {
+    return res.status(400).json({ error: 'contentId, churchId and approved(boolean) required' });
+  }
+  if (!denomApprovals[contentId]) denomApprovals[contentId] = {};
+  denomApprovals[contentId][churchId] = approved;
+  appendAudit('admin.content.approve', { contentId, churchId, approved });
+  return res.json({ ok: true, contentId, churchId, approved });
+});
+
 app.get('/content/vet-status', (req, res) => {
   // Merge local content list with vetStatus (demo)
   const fs = require('fs');
@@ -148,7 +162,13 @@ app.get('/content/vet-status', (req, res) => {
   const truthsPath = path.join(__dirname, '..', 'Content', 'Truths', 'truths_index.json');
   let truths = [];
   try { truths = JSON.parse(fs.readFileSync(truthsPath, 'utf8')); } catch (e) { /* ignore */ }
-  const merged = truths.map(t => ({ ...t, vetStatus: (contentVetting[t.id] && contentVetting[t.id].vetStatus) || t.vetStatus || 'pending' }));
+  const merged = truths.map(t => {
+    const base = { ...t, vetStatus: (contentVetting[t.id] && contentVetting[t.id].vetStatus) || t.vetStatus || 'pending' };
+    if (denomApprovals[t.id]) {
+      base.denomApprovals = { ...denomApprovals[t.id] };
+    }
+    return base;
+  });
   return res.json({ items: merged });
 });
 
