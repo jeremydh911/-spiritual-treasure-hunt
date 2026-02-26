@@ -25,6 +25,12 @@ public partial class PlayerProfile : Node
     // Telemetry / COPPA
     public bool telemetryEnabled = false;
 
+    // Accessibility
+    public enum TextSize { Small, Normal, Large }
+    public TextSize textSize = TextSize.Normal;
+    public bool narrationEnabled = false;
+    public bool highContrastMode = false;
+
     public List<string> ownedFruits = new List<string>();
     public List<string> equippedFruits = new List<string>();
     public bool isRainbowEquipped = false;
