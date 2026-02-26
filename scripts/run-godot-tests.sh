@@ -7,8 +7,16 @@ if ! command -v godot >/dev/null 2>&1; then
   exit 0
 fi
 # Try the common GUT CLI entrypoint; if not present, instruct the user
-if [ -f "$ROOT_DIR/GodotProject/addons/gut/gut_cmd_line.gd" ]; then
-  godot --headless --path "$ROOT_DIR/GodotProject" -s addons/gut/gut_cmd_line.gd || true
-else
-  echo "GUT addon not found in GodotProject. Install GUT or run tests from the Godot editor."
+# ensure GUT addon is present (clone if missing)
+if [ ! -d "$ROOT_DIR/GodotProject/addons/gut" ]; then
+  echo "GUT addon not found; cloning into project..."
+  git clone --depth 1 https://github.com/bitwes/Gut.git "$ROOT_DIR/GodotProject/addons/gut" || true
 fi
+for PROJECT in "GodotProject" "GodotProject3D"; do
+  if [ -f "$ROOT_DIR/$PROJECT/addons/gut/gut_cmd_line.gd" ]; then
+    echo "running GUT tests in $PROJECT..."
+    godot --headless --path "$ROOT_DIR/$PROJECT" -s addons/gut/gut_cmd_line.gd || true
+  else
+    echo "GUT addon not detected in $PROJECT. Skipping (run tests from the Godot editor)."
+  fi
+done

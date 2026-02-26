@@ -18,7 +18,11 @@ Endpoints
 - POST /verify/age { playerId, dob } -> { ageVerified, age }  # demo age-check (18+)
 - POST /verify/age/provider { playerId, providerName, token } -> { ageVerified, age, providerId }  # provider token verification (demo stub)
 - POST /verify/age/webhook { playerId, providerName, providerId, verified, age } -> { ok }  # provider callback (demo)
-
+Admin & content endpoints (demo)
+- POST /admin/church/override { churchId, adultModeDisabled } -> { ok }  # set override flag
+- GET  /admin/church/:churchId/status -> { adultModeDisabled }
+- POST /admin/content/vet { contentId, vetStatus } -> { ok }  # mark truth/quest vetting status
+- GET  /content/vet-status -> { items: [ {id, ..., vetStatus}, ... ] }  # merged list of truths with vetStatus
 Configuration (self‑hosted provider)
 - To enable the built‑in self‑hosted provider (freeware option), set `SELF_PROVIDER_SECRET` in the environment. Example: `export SELF_PROVIDER_SECRET=supersecret`
 - Token format (self provider): `playerId:timestamp:signature` where `signature = HMAC_SHA256(SELF_PROVIDER_SECRET, "playerId:timestamp")`.
