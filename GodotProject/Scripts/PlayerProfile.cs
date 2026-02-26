@@ -16,6 +16,12 @@ public partial class PlayerProfile : Node
     public bool cloudSaveEnabled = false; // requires parental consent for child accounts
     public string cloudSaveConsentId = null; // backend consent reference
 
+    // Age verification
+    public bool ageVerified = false;
+    public string ageVerifiedAt = ""; // ISO timestamp
+    public string ageVerifiedMethod = ""; // provider or demo
+    public string ageVerifiedProviderId = null;
+
     // Telemetry / COPPA
     public bool telemetryEnabled = false;
 
@@ -82,4 +88,23 @@ public partial class PlayerProfile : Node
     public void AddMusicTrack(string id) { if (!ownedMusicTracks.Contains(id)) ownedMusicTracks.Add(id); }
 
     public bool IsStewardshipReady() => HasVirtue("Stewardship") || ownedActivities.Contains("StewardshipPractice");
+
+    // Quest result tracking
+    // key is quest identifier, value is dictionary with attempts, duration, success
+    public Dictionary<string, Godot.Collections.Dictionary> questResults = new Dictionary<string, Godot.Collections.Dictionary>();
+
+    public void RecordQuestResult(string questId, int attempts, float duration, bool success)
+    {
+        var data = new Godot.Collections.Dictionary();
+        data["attempts"] = attempts;
+        data["duration"] = duration;
+        data["success"] = success;
+        questResults[questId] = data;
+    }
+
+    public Godot.Collections.Dictionary GetQuestResult(string questId)
+    {
+        if (questResults.ContainsKey(questId)) return questResults[questId];
+        return null;
+    }
 }

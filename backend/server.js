@@ -215,6 +215,30 @@ app.get('/guides/pdf/:name', (req, res) => {
   });
 });
 
+// Telemetry endpoint (demo only) - events sent by client
+app.post('/telemetry/event', (req, res) => {
+  const { playerId, event } = req.body || {};
+  if (!playerId || !event) return res.status(400).json({ error: 'playerId and event required' });
+  const profile = profiles[playerId];
+  if (profile && profile.telemetryEnabled) {
+    // COPPA enforcement: assume dob may exist
+    if (profile.dob) {
+      const dob = new Date(profile.dob);
+      const today = new Date();
+      let age = today.getUTCFullYear() - dob.getUTCFullYear();
+      const m = today.getUTCMonth() - dob.getUTCMonth();
+      if (m < 0 || (m === 0 && today.getUTCDate() < dob.getUTCDate())) age--;
+      if (age < 13) {
+        appendAudit('telemetry.rejected', { playerId, event });
+        return res.status(403).json({ error: 'COPPA: telemetry forbidden for accounts under 13' });
+      }
+    }
+    appendAudit('telemetry.event', { playerId, event });
+    return res.json({ ok: true });
+  }
+  return res.status(403).json({ error: 'telemetry not enabled or allowed' });
+});
+
 // Simple demo auth (no production security) — returns demo token
 app.post('/auth/demo-login', (req, res) => {
   const { playerId } = req.body || {};

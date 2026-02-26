@@ -38,11 +38,11 @@ Each line shows: task, area, priority, rough estimate, and the exact next action
   - Estimate: 3 days
   - Next action: add UI and metadata filter to mark `vetStatus` → `vetted` + export for denominational reviewers.
 
-- [ ] A5 — COPPA & GDPR compliance checklist + automated tests
+- [x] A5 — COPPA & GDPR compliance checklist + automated tests
   - Area: Policy / QA
   - Priority: A
   - Estimate: 1–2 days
-  - Next action: add COPPA checks to CI (no analytics for child accounts) and document retention rules.
+  - Notes: telemetry endpoint added with COPPA guard, backend tests expanded, privacy policy updated with retention rules.
 
 ---
 

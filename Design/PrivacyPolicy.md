@@ -19,6 +19,7 @@ Cloud saves & PII
 Data retention & deletion
 - Crash summaries: retained 90 days by default (adjustable per legal needs).
 - Consent logs: retained for compliance as required.
+- Telemetry events are considered ephemeral and will be purged periodically (default 90 days) unless anonymized aggregates are needed for legal or safety reasons.
 - Deletion requests remove PII and unlink cloud saves; aggregate, non‑PII telemetry (if any) may be retained in anonymized form.
 
 Compliance
