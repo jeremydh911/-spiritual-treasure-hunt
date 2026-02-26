@@ -20,3 +20,11 @@ position = Vector3( -1, 0, 0 )
 [node name="Status" type="Label3D" parent="."]
 position = Vector3( -1, -1, 0 )
 text = ""
+
+[node name="VerifyButton" type="Button" parent="."]
+text = "Verify Age"
+position = Vector3( 1, 2, 0 )
+
+[node name="ConsentButton" type="Button" parent="."]
+text = "Grant Consent"
+position = Vector3( 1, 1, 0 )
