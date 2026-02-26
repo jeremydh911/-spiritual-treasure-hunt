@@ -101,8 +101,8 @@ Each line shows: task, area, priority, rough estimate, and the exact next action
 - [x] C4 — Telemetry: opt‑in gating and privacy review
   - Next action: backend stamps consent timestamp and enforces COPPA/opt-in; tests added.
 
-- [ ] C5 — Release: mobile export scripts + store listing checklist
-  - Next action: draft Play Store / App Store metadata; prepare build scripts.
+- [x] C5 — Release: mobile export scripts + store listing checklist
+  - Next action: helper export scripts (`scripts/export-android.sh`, `export-ios.sh`) and metadata template added; fill with real graphics & copy.
 
 ---
 
