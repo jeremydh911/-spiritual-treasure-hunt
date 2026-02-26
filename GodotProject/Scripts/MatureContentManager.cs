@@ -23,4 +23,23 @@ public static class MatureContentManager
         }
         return null;
     }
+
+    // Save the guide text to the user sandbox so it can be opened offline or shared.
+    // Returns true if the file was written successfully.
+    public static bool SaveLocalGuideToDisk(string key)
+    {
+        var txt = LoadMatureText(key);
+        if (string.IsNullOrEmpty(txt)) return false;
+        try
+        {
+            var userPath = ProjectSettings.GlobalizePath("user://");
+            var outPath = System.IO.Path.Combine(userPath, key + "_guide.md");
+            System.IO.File.WriteAllText(outPath, txt);
+            return true;
+        }
+        catch (Exception)
+        {
+            return false;
+        }
+    }
 }
