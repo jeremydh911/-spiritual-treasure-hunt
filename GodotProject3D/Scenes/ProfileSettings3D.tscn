@@ -28,3 +28,14 @@ position = Vector3( 1, 2, 0 )
 [node name="ConsentButton" type="Button" parent="."]
 text = "Grant Consent"
 position = Vector3( 1, 1, 0 )
+
+[node name="TextSizeOption" type="OptionButton" parent="."]
+position = Vector3( 1, 0, 0 )
+
+[node name="NarrationToggle" type="CheckBox" parent="."]
+text = "Narration"
+position = Vector3( 1, -1, 0 )
+
+[node name="ContrastToggle" type="CheckBox" parent="."]
+text = "High Contrast"
+position = Vector3( 1, -2, 0 )

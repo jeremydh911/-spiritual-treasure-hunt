@@ -95,8 +95,8 @@ Each line shows: task, area, priority, rough estimate, and the exact next action
 - [ ] C2 — Art pass (kingdom UI, bridge, character silhouettes)
   - Next action: prepare artist briefs for each demo scene.
 
-- [ ] C3 — Accessibility features (text size, narration toggle, color contrast)
-  - Next action: add accessibility toggles in Settings and test with screen readers.
+- [x] C3 — Accessibility features (text size, narration toggle, color contrast)
+  - Next action: accessibility toggles added to 3D settings UI with corresponding GUT tests.
 
 - [ ] C4 — Telemetry: opt‑in gating and privacy review
   - Next action: finalize events to keep learning offline-first; gate telemetry behind explicit consent.

@@ -11,6 +11,11 @@ public partial class ProfileSettings3D : Node3D
     private Button consentButton;
     private Label3D statusLabel;
 
+    // accessibility controls
+    private OptionButton textSizeOption;
+    private CheckBox narrationToggle;
+    private CheckBox contrastToggle;
+
     public override void _Ready()
     {
         cloudToggle = GetNodeOrNull<CheckBox>("CloudToggle");
@@ -33,6 +38,32 @@ public partial class ProfileSettings3D : Node3D
         syncButton?.Connect("pressed", new Callable(this, nameof(OnSyncPressed)));
         verifyButton?.Connect("pressed", new Callable(this, nameof(OnVerifyPressed)));
         consentButton?.Connect("pressed", new Callable(this, nameof(OnConsentPressed)));
+
+        // accessibility controls
+        textSizeOption = GetNodeOrNull<OptionButton>("TextSizeOption");
+        narrationToggle = GetNodeOrNull<CheckBox>("NarrationToggle");
+        contrastToggle = GetNodeOrNull<CheckBox>("ContrastToggle");
+
+        // populate accessibility option list at startup
+        if (textSizeOption != null)
+        {
+            textSizeOption.Clear();
+            textSizeOption.AddItem("Small");
+            textSizeOption.AddItem("Normal");
+            textSizeOption.AddItem("Large");
+            if (profile != null)
+                textSizeOption.Selected = (int)profile.textSize;
+        }
+
+        if (profile != null)
+        {
+            narrationToggle?.SetPressed(profile.narrationEnabled);
+            contrastToggle?.SetPressed(profile.highContrastMode);
+        }
+
+        textSizeOption?.Connect("item_selected", new Callable(this, nameof(OnTextSizeChanged)));
+        narrationToggle?.Connect("toggled", new Callable(this, nameof(OnNarrationToggled)));
+        contrastToggle?.Connect("toggled", new Callable(this, nameof(OnContrastToggled)));
     }
 
     private void OnCloudToggled(bool pressed)
@@ -84,6 +115,37 @@ public partial class ProfileSettings3D : Node3D
             // simulate granting consent by generating ID
             profile.cloudSaveConsentId = $"consent_{System.DateTime.UtcNow.Ticks}";
             UpdateStatus("Parental consent granted");
+        }
+    }
+
+    // accessibility handlers
+    private void OnTextSizeChanged(long index)
+    {
+        if (profile != null)
+        {
+            profile.textSize = (PlayerProfile.TextSize)index;
+            SaveManager.SaveLocalProfile(profile);
+            UpdateStatus($"Text size set to {profile.textSize}");
+        }
+    }
+
+    private void OnNarrationToggled(bool pressed)
+    {
+        if (profile != null)
+        {
+            profile.narrationEnabled = pressed;
+            SaveManager.SaveLocalProfile(profile);
+            UpdateStatus("Narration " + (pressed ? "enabled" : "disabled"));
+        }
+    }
+
+    private void OnContrastToggled(bool pressed)
+    {
+        if (profile != null)
+        {
+            profile.highContrastMode = pressed;
+            SaveManager.SaveLocalProfile(profile);
+            UpdateStatus("High contrast " + (pressed ? "enabled" : "disabled"));
         }
     }
 
