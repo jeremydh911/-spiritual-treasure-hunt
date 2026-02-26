@@ -1,0 +1,4 @@
+{
+  "narration": ["intro.wav", "quest_complete.wav"],
+  "affirmation": ["correct.wav", "incorrect.wav"]
+}
