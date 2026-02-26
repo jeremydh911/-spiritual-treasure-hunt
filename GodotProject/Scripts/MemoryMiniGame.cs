@@ -10,6 +10,7 @@ public partial class MemoryMiniGame : Node2D
 {
     [Export] public string scriptureId = "SCRIPT-1PET2-9";
     [Export] public PackedScene cardButtonScene;
+    [Export] public Label statusLabel; // optional, update when game completes
 
     // logical state
     private int[] cards = null; // pairs represented by integers
@@ -18,6 +19,10 @@ public partial class MemoryMiniGame : Node2D
     private int secondFlipped = -1;
 
     private List<Button> uiCards = new();
+
+    public int Attempts { get; private set; }
+    public float Duration { get; private set; }
+    private DateTime startTime;
 
     // Simulate a correct play (used by tests and quick demo)
     public bool SimulateWin()
@@ -81,13 +86,17 @@ public partial class MemoryMiniGame : Node2D
         FlipCard(index);
         if (uiCards.Count > index)
         {
-            uiCards[index].Text = cards[index].ToString();
-            if (matched[index]) uiCards[index].Disabled = true;
+            var btn = uiCards[index];
+            btn.Text = cards[index].ToString();
+            if (matched[index]) btn.Disabled = true;
         }
     }
 
     public bool FlipCard(int index)
     {
+        if (startTime == default) startTime = DateTime.UtcNow;
+        Attempts++;
+
         if (cards == null || index < 0 || index >= cards.Length) return false;
         if (matched[index]) return false;
         if (firstFlipped == -1) { firstFlipped = index; return true; }
@@ -100,6 +109,12 @@ public partial class MemoryMiniGame : Node2D
         }
         firstFlipped = -1;
         secondFlipped = -1;
+        if (IsComplete())
+        {
+            Duration = (float)(DateTime.UtcNow - startTime).TotalSeconds;
+            if (statusLabel != null)
+                statusLabel.Text = $"Done in {Attempts} attempts ({Duration:F2}s)";
+        }
         return true;
     }
 

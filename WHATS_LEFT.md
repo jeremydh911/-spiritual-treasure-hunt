@@ -68,11 +68,11 @@ Each line shows: task, area, priority, rough estimate, and the exact next action
   - Estimate: 2 days
   - Next action: add GUT + CI workflow to run `TruthQuest_IAmChosenTest` and `TruthsTest`.
 
-- [ ] B4 — Mature Mode: finalize UI/UX + printable guide download offline first
+- [x] B4 — Mature Mode: finalize UI/UX + printable guide download offline first
   - Area: UI / Content
   - Priority: B
   - Estimate: 1–2 days
-  - Next action: add `SaveLocalGuideToDisk` calls where applicable and ensure offline fallback copy exists.
+  - Next action: added `MatureGuideUI` with download button and `SaveLocalGuideToDisk` (tests added).
 
 - [ ] B5 — Denominational vet approval integration (data + per‑church flags)
   - Area: Content / Backend
