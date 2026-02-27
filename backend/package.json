@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "test": "node test/verify_age.test.js && node test/sync_profile.test.js && node test/admin_church.test.js && node test/content_vetting.test.js && node test/telemetry.test.js"
+    "test": "node test/verify_age.test.js && node test/sync_profile.test.js && node test/admin_church.test.js && node test/content_vetting.test.js && node test/denom_approval.test.js && node test/telemetry.test.js"
   },
   "dependencies": {
     "body-parser": "^1.20.2",
