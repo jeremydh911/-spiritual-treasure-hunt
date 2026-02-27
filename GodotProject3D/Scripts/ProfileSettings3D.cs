@@ -32,9 +32,17 @@ public partial class ProfileSettings3D : Node3D
         {
             cloudToggle?.SetPressed(profile.cloudSaveEnabled);
             telemetryToggle?.SetPressed(profile.telemetryEnabled);
+            // show consent status if present
+            if (profile.HasParentalConsent())
+            {
+                UpdateStatus("Parental consent granted");
+            }
         }
 
         cloudToggle?.Connect("toggled", new Callable(this, nameof(OnCloudToggled)));
+        // disable cloud toggle for children until consent granted
+        if (profile != null && !profile.HasParentalConsent() && !profile.IsAdultByAge())
+            cloudToggle?.SetDisabled(true);
         telemetryToggle?.Connect("toggled", new Callable(this, nameof(OnTelemetryToggled)));
         syncButton?.Connect("pressed", new Callable(this, nameof(OnSyncPressed)));
         verifyButton?.Connect("pressed", new Callable(this, nameof(OnVerifyPressed)));
@@ -122,6 +130,8 @@ public partial class ProfileSettings3D : Node3D
             // simulate granting consent by generating ID
             profile.cloudSaveConsentId = $"consent_{System.DateTime.UtcNow.Ticks}";
             UpdateStatus("Parental consent granted");
+            // now allow cloud toggle
+            cloudToggle?.SetDisabled(false);
         }
     }
 

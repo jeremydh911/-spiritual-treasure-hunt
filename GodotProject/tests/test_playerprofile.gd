@@ -13,11 +13,13 @@ test "PlayerProfile CanUseCloudSave respects age and consent" do
     # add consent
     prof.cloudSaveConsentId = "c1"
     assert_true(prof.CanUseCloudSave())
+    assert_true(prof.HasParentalConsent())
 
     # adult should be allowed regardless of consent id (but must have cloudSaveEnabled)
     prof.dob = "2000-01-01"
     prof.cloudSaveConsentId = ""  # empty
     assert_true(prof.CanUseCloudSave())
+    assert_false(prof.HasParentalConsent())
 
     # disable cloud saves and nothing works
     prof.cloudSaveEnabled = false

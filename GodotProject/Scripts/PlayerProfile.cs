@@ -64,12 +64,15 @@ public partial class PlayerProfile : Node
         return adultModeEnabled;
     }
 
+    // whether a parental consent token is present
+    public bool HasParentalConsent() => !string.IsNullOrEmpty(cloudSaveConsentId);
+
     // Cloud save allowed if player is adult OR parental consent exists and cloudSaveEnabled is true
     public bool CanUseCloudSave()
     {
         if (IsAdultByAge(18)) return cloudSaveEnabled;
         // child accounts require explicit parental consent id
-        return cloudSaveEnabled && !string.IsNullOrEmpty(cloudSaveConsentId);
+        return cloudSaveEnabled && HasParentalConsent();
     }
 
     // COPPA guard: telemetry should be disabled for children under 13
