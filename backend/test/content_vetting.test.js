@@ -31,7 +31,8 @@ async function waitForServer(url, timeoutMs = 5000) {
     // tests execute from backend/test, but truth files live in the repo root
     const truthsPath = path.join(__dirname, '..', '..', 'Content', 'Truths', 'truths_index.json');
     if (!fs.existsSync(truthsPath)) throw new Error(`truths index not found at ${truthsPath}`);
-    const truths = JSON.parse(fs.readFileSync(truthsPath, 'utf8'));
+    const raw = JSON.parse(fs.readFileSync(truthsPath, 'utf8'));
+    const truths = Array.isArray(raw) ? raw : (Array.isArray(raw.truths) ? raw.truths : []);
     if (truths.length === 0) throw new Error('no truths in index');
     const testId = truths[0].id;
 
