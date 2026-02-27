@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=2]
+
+[node name="ContentVetDashboard" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="VBox" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="ItemList" type="ItemList" parent="VBox"]
+anchor_right = 1.0
+anchor_bottom = 0.8
+
+[node name="HBox" type="HBoxContainer" parent="VBox"]
+
+[node name="VetButton" type="Button" parent="HBox"]
+text = "Mark Vetted"
+
+[node name="ExportButton" type="Button" parent="HBox"]
+text = "Export Status"
