@@ -11,6 +11,7 @@ test "ProfileSettings3D loads and toggles" do
     var sync = scene.get_node_or_null("SyncButton")
     var verify = scene.get_node_or_null("VerifyButton")
     var consent = scene.get_node_or_null("ConsentButton")
+    var guide = scene.get_node_or_null("GuideButton")
     var textSize = scene.get_node_or_null("TextSizeOption")
     var narr = scene.get_node_or_null("NarrationToggle")
     var contrast = scene.get_node_or_null("ContrastToggle")
@@ -21,6 +22,7 @@ test "ProfileSettings3D loads and toggles" do
     assert_not_null(sync)
     assert_not_null(verify)
     assert_not_null(consent)
+    assert_not_null(guide) # guide button should exist
     assert_not_null(textSize)
     assert_not_null(narr)
     assert_not_null(contrast)
@@ -54,4 +56,9 @@ test "ProfileSettings3D loads and toggles" do
     assert_true(prof.narrationEnabled)
     contrast.toggled(true)
     assert_true(prof.highContrastMode)
+
+    # pressing the guide button should update status text
+    guide.pressed()
+    var status = scene.get_node("Status")
+    assert_eq(status.text, "Guide not available")
 end

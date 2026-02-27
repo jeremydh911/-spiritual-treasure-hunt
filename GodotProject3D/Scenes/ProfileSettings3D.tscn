@@ -39,3 +39,7 @@ position = Vector3( 1, -1, 0 )
 [node name="ContrastToggle" type="CheckBox" parent="."]
 text = "High Contrast"
 position = Vector3( 1, -2, 0 )
+
+[node name="GuideButton" type="Button" parent="."]
+text = "View Guide"
+position = Vector3( 0, -3, 0 )

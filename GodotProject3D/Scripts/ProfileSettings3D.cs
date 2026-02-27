@@ -10,6 +10,7 @@ public partial class ProfileSettings3D : Node3D
     private Button verifyButton;
     private Button consentButton;
     private Label3D statusLabel;
+    private Button guideButton; // new UI
 
     // accessibility controls
     private OptionButton textSizeOption;
@@ -38,6 +39,10 @@ public partial class ProfileSettings3D : Node3D
         syncButton?.Connect("pressed", new Callable(this, nameof(OnSyncPressed)));
         verifyButton?.Connect("pressed", new Callable(this, nameof(OnVerifyPressed)));
         consentButton?.Connect("pressed", new Callable(this, nameof(OnConsentPressed)));
+
+        // guide button (placeholder behavior)
+        guideButton = GetNodeOrNull<Button>("GuideButton");
+        guideButton?.Connect("pressed", new Callable(this, nameof(OnGuidePressed)));
 
         // accessibility controls
         textSizeOption = GetNodeOrNull<OptionButton>("TextSizeOption");
@@ -149,6 +154,14 @@ public partial class ProfileSettings3D : Node3D
             SaveManager.SaveLocalProfile(profile);
             UpdateStatus("High contrast " + (pressed ? "enabled" : "disabled"));
         }
+    }
+
+    private void OnGuidePressed()
+    {
+        // Currently the guide UI is not implemented in the 3D project.  Log and
+        // give feedback to the player so the button isn't completely dead.
+        GD.Print("Guide button pressed — no guide available yet");
+        UpdateStatus("Guide not available");
     }
 
     private void UpdateStatus(string text)
