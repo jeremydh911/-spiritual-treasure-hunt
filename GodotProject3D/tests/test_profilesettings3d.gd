@@ -33,6 +33,14 @@ test "ProfileSettings3D loads and toggles" do
     assert_true(cloud.pressed)
     assert_false(tel.pressed)
 
+    # child without consent should have cloud toggle disabled
+    scene.profile = PlayerProfile.new()
+    scene.profile.dob = "2015-01-01"
+    scene.profile.cloudSaveEnabled = true
+    # reinstate nodes because profile changed
+    cloud = scene.get_node("CloudToggle")
+    assert_true(cloud.disabled)
+
     # enabling telemetry should stamp consent time
     tel.toggled(true)
     assert_true(scene.profile.telemetryEnabled)
