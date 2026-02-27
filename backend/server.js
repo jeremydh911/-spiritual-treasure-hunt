@@ -181,6 +181,10 @@ app.post('/sync/profile', (req, res) => {
   // Consent check: require parental consent for cloud save if profile.cloudSaveEnabled is true
   const consentFound = Object.values(parentalConsents).some(c => c.consentId === consentId);
   if (profile && profile.cloudSaveEnabled && !consentFound) return res.status(403).json({ error: 'parental consent required for cloud save' });
+  if (profile && profile.cloudSaveEnabled && consentFound) {
+    // remember the consent reference so clients can persist it
+    profile.cloudSaveConsentId = consentId;
+  }
 
   // Merge church override flag if exists for player's churchId
   const churchId = profile && profile.churchId ? profile.churchId : null;

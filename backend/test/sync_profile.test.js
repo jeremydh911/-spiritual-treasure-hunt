@@ -37,6 +37,10 @@ async function waitForServer(url, timeoutMs = 5000) {
     const consentId = j.consentId;
     r = await fetch('http://localhost:4000/sync/profile', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ playerId: 'p1', consentId, profile }) });
     if (r.status !== 200) throw new Error('sync/profile should succeed when parental consent provided');
+    // ensure consent id is stored and retrievable
+    r = await fetch('http://localhost:4000/profile/p1');
+    j = await r.json();
+    if (j.profile.cloudSaveConsentId !== consentId) throw new Error('cloudSaveConsentId must be recorded in profile');
 
     // 3) COPPA: telemetryEnabled for under-13 should be rejected
     const childProfile = { playerId: 'kid1', dob: '2014-01-01', telemetryEnabled: true };
