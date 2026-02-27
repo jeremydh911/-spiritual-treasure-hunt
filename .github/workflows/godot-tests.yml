@@ -14,17 +14,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Install Godot (headless) CLI
+        run: |
+          # download a known-good headless build; adjust version as needed
+          GODOT_VERSION=4.2.0
+          wget -qO godot.zip https://downloads.tuxfamily.org/godotengine/${GODOT_VERSION}/godot-${GODOT_VERSION}-linux.headless.64.zip
+          unzip -q godot.zip -d /usr/local/bin
+          chmod +x /usr/local/bin/godot
+          godot --version
+
       - name: Run Godot headless tests (script)
         run: |
-          chmod +x ./scripts/run-godot-tests.sh || true
+          chmod +x ./scripts/run-godot-tests.sh
           ./scripts/run-godot-tests.sh
-
-  godot-headless-try:
-    name: attempt-godot-headless
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Try to run Godot (non-fatal)
-        run: |
-          echo "Attempting to run Godot tests (will succeed gracefully if Godot not present)..."
-          ./scripts/run-godot-tests.sh || true

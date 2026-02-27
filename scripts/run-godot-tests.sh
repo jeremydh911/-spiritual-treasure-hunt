@@ -12,11 +12,20 @@ if [ ! -d "$ROOT_DIR/GodotProject/addons/gut" ]; then
   echo "GUT addon not found; cloning into project..."
   git clone --depth 1 https://github.com/bitwes/Gut.git "$ROOT_DIR/GodotProject/addons/gut" || true
 fi
+failed=0
 for PROJECT in "GodotProject" "GodotProject3D"; do
   if [ -f "$ROOT_DIR/$PROJECT/addons/gut/gut_cmd_line.gd" ]; then
     echo "running GUT tests in $PROJECT..."
-    godot --headless --path "$ROOT_DIR/$PROJECT" -s addons/gut/gut_cmd_line.gd || true
+    godot --headless --path "$ROOT_DIR/$PROJECT" -s addons/gut/gut_cmd_line.gd
+    status=$?
+    if [ $status -ne 0 ]; then
+      echo "tests in $PROJECT failed (exit $status)" >&2
+      failed=1
+    fi
   else
     echo "GUT addon not detected in $PROJECT. Skipping (run tests from the Godot editor)."
   fi
 done
+if [ $failed -ne 0 ]; then
+  exit 1
+fi

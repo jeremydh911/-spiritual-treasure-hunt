@@ -38,4 +38,8 @@ test-results-*.xml
 
 # OS / misc
 Thumbs.db
+
+# Demo persistence data (do not track in repo)
+backend/data/
+
 "# End of file"

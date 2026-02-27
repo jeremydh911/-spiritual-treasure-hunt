@@ -38,11 +38,11 @@ Each line shows: task, area, priority, rough estimate, and the exact next action
   - Estimate: 3 days
   - Next action: add UI and metadata filter to mark `vetStatus` → `vetted` + export for denominational reviewers.
 
-- [ ] A5 — COPPA & GDPR compliance checklist + automated tests
+- [x] A5 — COPPA & GDPR compliance checklist + automated tests
   - Area: Policy / QA
   - Priority: A
   - Estimate: 1–2 days
-  - Next action: add COPPA checks to CI (no analytics for child accounts) and document retention rules.
+  - Notes: telemetry endpoint added with COPPA guard, backend tests expanded, privacy policy updated with retention rules.
 
 ---
 
@@ -68,11 +68,11 @@ Each line shows: task, area, priority, rough estimate, and the exact next action
   - Estimate: 2 days
   - Next action: add GUT + CI workflow to run `TruthQuest_IAmChosenTest` and `TruthsTest`.
 
-- [ ] B4 — Mature Mode: finalize UI/UX + printable guide download offline first
+- [x] B4 — Mature Mode: finalize UI/UX + printable guide download offline first
   - Area: UI / Content
   - Priority: B
   - Estimate: 1–2 days
-  - Next action: add `SaveLocalGuideToDisk` calls where applicable and ensure offline fallback copy exists.
+  - Next action: added `MatureGuideUI` with download button and `SaveLocalGuideToDisk` (tests added).
 
 - [ ] B5 — Denominational vet approval integration (data + per‑church flags)
   - Area: Content / Backend
@@ -95,14 +95,14 @@ Each line shows: task, area, priority, rough estimate, and the exact next action
 - [ ] C2 — Art pass (kingdom UI, bridge, character silhouettes)
   - Next action: prepare artist briefs for each demo scene.
 
-- [ ] C3 — Accessibility features (text size, narration toggle, color contrast)
-  - Next action: add accessibility toggles in Settings and test with screen readers.
+- [x] C3 — Accessibility features (text size, narration toggle, color contrast)
+  - Next action: accessibility toggles added to 3D settings UI with corresponding GUT tests.
 
-- [ ] C4 — Telemetry: opt‑in gating and privacy review
-  - Next action: finalize events to keep learning offline-first; gate telemetry behind explicit consent.
+- [x] C4 — Telemetry: opt‑in gating and privacy review
+  - Next action: backend stamps consent timestamp and enforces COPPA/opt-in; tests added.
 
-- [ ] C5 — Release: mobile export scripts + store listing checklist
-  - Next action: draft Play Store / App Store metadata; prepare build scripts.
+- [x] C5 — Release: mobile export scripts + store listing checklist
+  - Next action: helper export scripts (`scripts/export-android.sh`, `export-ios.sh`) and metadata template added; fill with real graphics & copy.
 
 ---
 

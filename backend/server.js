@@ -166,6 +166,14 @@ app.post('/sync/profile', (req, res) => {
     if (age < 13) return res.status(403).json({ error: 'COPPA: telemetry forbidden for accounts under 13' });
   }
 
+  // enforce explicit opt‑in timestamp for telemetry
+  if (profile && profile.telemetryEnabled) {
+    if (!profile.telemetryConsentedAt) {
+      // stamp consent now (client should include, but backend will populate if missing)
+      profile.telemetryConsentedAt = new Date().toISOString();
+    }
+  }
+
   // Consent check: require parental consent for cloud save if profile.cloudSaveEnabled is true
   const consentFound = Object.values(parentalConsents).some(c => c.consentId === consentId);
   if (profile && profile.cloudSaveEnabled && !consentFound) return res.status(403).json({ error: 'parental consent required for cloud save' });
@@ -213,6 +221,36 @@ app.get('/guides/pdf/:name', (req, res) => {
   res.sendFile(path, err => {
     if (err) res.status(404).send('PDF guide not found');
   });
+});
+
+// Telemetry endpoint (demo only) - events sent by client
+app.post('/telemetry/event', (req, res) => {
+  const { playerId, event } = req.body || {};
+  if (!playerId || !event) return res.status(400).json({ error: 'playerId and event required' });
+  const profile = profiles[playerId];
+  if (profile && profile.telemetryEnabled) {
+    // refuse telemetry if the client never recorded consent
+    if (!profile.telemetryConsentedAt) {
+      appendAudit('telemetry.rejected.no_consent', { playerId, event });
+      return res.status(403).json({ error: 'telemetry consent required' });
+    }
+
+    // COPPA enforcement: assume dob may exist
+    if (profile.dob) {
+      const dob = new Date(profile.dob);
+      const today = new Date();
+      let age = today.getUTCFullYear() - dob.getUTCFullYear();
+      const m = today.getUTCMonth() - dob.getUTCMonth();
+      if (m < 0 || (m === 0 && today.getUTCDate() < dob.getUTCDate())) age--;
+      if (age < 13) {
+        appendAudit('telemetry.rejected', { playerId, event });
+        return res.status(403).json({ error: 'COPPA: telemetry forbidden for accounts under 13' });
+      }
+    }
+    appendAudit('telemetry.event', { playerId, event, consentedAt: profile.telemetryConsentedAt });
+    return res.json({ ok: true });
+  }
+  return res.status(403).json({ error: 'telemetry not enabled or allowed' });
 });
 
 // Simple demo auth (no production security) — returns demo token
