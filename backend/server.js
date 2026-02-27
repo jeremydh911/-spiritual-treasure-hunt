@@ -147,7 +147,11 @@ app.get('/content/vet-status', (req, res) => {
   const path = require('path');
   const truthsPath = path.join(__dirname, '..', 'Content', 'Truths', 'truths_index.json');
   let truths = [];
-  try { truths = JSON.parse(fs.readFileSync(truthsPath, 'utf8')); } catch (e) { /* ignore */ }
+  try {
+    const raw = JSON.parse(fs.readFileSync(truthsPath, 'utf8')) || {};
+    // older files contained an array at root; newer ones wrap in { truths: [...] }
+    truths = Array.isArray(raw) ? raw : (Array.isArray(raw.truths) ? raw.truths : []);
+  } catch (e) { /* ignore */ }
   const merged = truths.map(t => ({ ...t, vetStatus: (contentVetting[t.id] && contentVetting[t.id].vetStatus) || t.vetStatus || 'pending' }));
   return res.json({ items: merged });
 });

@@ -28,8 +28,11 @@ async function waitForServer(url, timeoutMs = 5000) {
 
     // read a truth ID from content file
     const fs = require('fs');
-    const truthsPath = path.join(__dirname, '..', 'Content', 'Truths', 'truths_index.json');
-    const truths = JSON.parse(fs.readFileSync(truthsPath, 'utf8'));
+    // tests execute from backend/test, but truth files live in the repo root
+    const truthsPath = path.join(__dirname, '..', '..', 'Content', 'Truths', 'truths_index.json');
+    if (!fs.existsSync(truthsPath)) throw new Error(`truths index not found at ${truthsPath}`);
+    const raw = JSON.parse(fs.readFileSync(truthsPath, 'utf8'));
+    const truths = Array.isArray(raw) ? raw : (Array.isArray(raw.truths) ? raw.truths : []);
     if (truths.length === 0) throw new Error('no truths in index');
     const testId = truths[0].id;
 
