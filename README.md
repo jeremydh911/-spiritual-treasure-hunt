@@ -1,5 +1,11 @@
 Spiritual Treasure Hunt — RPG Game (prototype)
 
+Install on Windows: double-click `Install--spiritual-treasure-hunt.bat`.
+Install on Mac: double-click `Install--spiritual-treasure-hunt.command` (it runs `Install--spiritual-treasure-hunt.sh`).
+
+Publisher: Ahanaai Company, DUNS 149970889 (`PUBLISHER.txt`).
+
+
 Overview
 - Short: a cross-platform (iOS/Android) Unity-based educational RPG with mini‑games and quests that teach biblical virtues and lead players toward spiritual growth.
 - Target age: 7–18 (Mature Mode 18+ via age verification)
